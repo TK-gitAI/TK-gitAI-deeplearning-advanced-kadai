@@ -5,7 +5,7 @@ from io import BytesIO
 import os
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
-from tensorflow.keras.applications.vgg16 import decode_predictions
+from tensorflow.keras.applications.vgg16 import preprocess_input, decode_predictions
 from django.conf import settings
 
 def predict(request):
@@ -18,12 +18,10 @@ def predict(request):
         if form.is_valid():
             img_file = form.cleaned_data["image"]
             img_file = BytesIO(img_file.read())
-
-            # 画像の前処理
             img = load_img(img_file, target_size=(224, 224))
             img_array = img_to_array(img)
-            img_array = img_array.reshape((1, 224, 224, 3))# (1, 224, 224, 3) に変形
-            img_array = img_array / 255.0  # 正規化
+            img_array = img_array.reshape((1, 224, 224, 3))
+            img_array = preprocess_input(img_array)
 
             model_path = os.path.join(settings.BASE_DIR, 'predictor', 'models', 'vgg16.h5')
             model = load_model(model_path)
