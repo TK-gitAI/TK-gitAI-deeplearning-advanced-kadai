@@ -22,7 +22,7 @@ def predict(request):
             # 画像の前処理
             img = load_img(img_file, target_size=(224, 224))
             img_array = img_to_array(img)
-            img_array = np.expand_dims(img_array, axis=0)  # (1, 224, 224, 3) に変形
+            img_array = img_array.reshape((1, 224, 224, 3))# (1, 224, 224, 3) に変形
             img_array = img_array / 255.0  # 正規化
 
             model_path = os.path.join(settings.BASE_DIR, 'predictor', 'models', 'vgg16.h5')

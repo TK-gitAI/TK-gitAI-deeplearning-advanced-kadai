@@ -15,8 +15,7 @@
       <h2 class="mb-4">画像判定します</h2>
       <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
-          {% csrf_token %}
-          {{ form.as_p }}
+          {% csrf_token %} {{ form.as_p }}
           <input id="img_data" type="hidden" name="img_data" />
         </div>
         <img id="preview" style="display: none" class="img-fluid mb-3" />
@@ -31,13 +30,23 @@
         <p>あなたのアップロードした画像の判定予測は以下の通りです。</p>
         <img src="{{ img_data }}" class="img-fluid mb-3" />
 
-        <ul class="list-group">
-          {% for result in prediction_results %}
-          <li class="list-group-item">
-            {{ result.label }}: {{ result.confidence }}%
-          </li>
-          {% endfor %}
-        </ul>
+        <h4>上位5つのカテゴリと確率</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>カテゴリ</th>
+              <th>確率</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in prediction_results|slice:":5" %}
+            <tr>
+              <td>{{ result.label }}</td>
+              <td>{{ result.confidence }}%</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
       {% else %}
       <p>データが渡っていません</p>
