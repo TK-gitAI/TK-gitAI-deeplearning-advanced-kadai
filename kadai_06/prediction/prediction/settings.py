@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'prediction',  # Your app name here
+    'predictor',  # Your app name here
 ]
 
 MIDDLEWARE = [

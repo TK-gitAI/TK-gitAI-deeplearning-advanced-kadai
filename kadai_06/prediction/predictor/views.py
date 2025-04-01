@@ -25,7 +25,7 @@ def predict(request):
             img_array = np.expand_dims(img_array, axis=0)  # (1, 224, 224, 3) に変形
             img_array = img_array / 255.0  # 正規化
 
-            model_path = os.path.join(settings.BASE_DIR, 'prediction', 'models', 'vgg16.h5')
+            model_path = os.path.join(settings.BASE_DIR, 'predictor', 'models', 'vgg16.h5')
             model = load_model(model_path)
             preds = model.predict(img_array)
 
